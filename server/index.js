@@ -32,7 +32,7 @@ app.post("/add-agent",(req,res) => {
     mongoClient.connect(connectionString).then((clientObj)=>{
         var database = clientObj.db("intimation-calculator");
         var agentname = {
-            AgentName : req.body.AgentName.toUpperCase(),
+            AgentName : req.body.AgentName.toUpperCase().trim(),
             CreatedAt : new Date().toLocaleString("en-US",{timeZone : 'Asia/Kolkata'})
         }
         //checking that if agent already exists
@@ -68,6 +68,34 @@ app.get("/get-agents",(req,res)=>{
     })
 })
 
+
+app.post("/calculate-amount",(req,res)=>{
+    mongoClient.connect(connectionString).then((clientObj)=>{
+        var database = clientObj.db("intimation-calculator");
+        var clientAmount = {
+            FirstName : req.body.FirstName.toUpperCase().trim(),
+            LastName : req.body.LastName.toUpperCase().trim(),
+            Mobile : req.body.Mobile,
+            Email : req.body.Email.toLowerCase().trim(),
+            AgentName : req.body.AgentName.toUpperCase().trim(),
+            LoanAmount : req.body.LoanAmount,
+            RateOfInterest : req.body.RateOfInterest,
+            challan03 : req.body.challan03,
+            challan05 : req.body.challan05,
+            dhc : req.body.dhc,
+            IntimationCharges : req.body.IntimationCharges,
+            CreatedAt : new Date().toLocaleString("en-US",{timeZone : 'Asia/Kolkata'})
+        }
+        database.collection("client-amount").insertOne(clientAmount).then((document)=>{
+            console.log("Calculated Successful",clientAmount);
+            res.send(document);
+            res.end();
+        }).catch(error => {
+            console.log(error,"Error in calculation amouunt");
+            res.status(500).send({message : "Error in calculating"});
+        })
+    })
+})
 
 
 

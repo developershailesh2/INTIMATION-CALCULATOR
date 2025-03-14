@@ -1,9 +1,49 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, MenuList, Select, TextField, Typography } from "@mui/material";
+import axios from "axios";
 import {useFormik} from "formik";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
+import Swal from "sweetalert2";
+import { Link } from "react-router-dom";
 
 export function HomePage() {
 
+    const [agents , setAgents] = useState('');
+
+    const calculateChallan = (LoanAmount) => {
+        LoanAmount = Number(LoanAmount);
+        let challan03 , challan05 ;
+        const dhc = 300;
+
+        //0.3 challan calculation
+        if(LoanAmount <= 500000){
+            challan03 = LoanAmount * 0.001;
+            challan03.toFixed(3);
+        } else if(LoanAmount <= 3333333) {
+            challan03 = LoanAmount * 0.003;
+            //4 digit amount
+            challan03.toFixed(4);
+        } else {
+            challan03 = LoanAmount * 0.003;
+            //5 digit amount
+            challan03.toFixed(5);
+        }
+
+        //0.5 challan calculation
+        if(LoanAmount >= 3000000){
+            challan05 = 15000;
+        } else if(LoanAmount >= 2000000) {
+            challan05 = LoanAmount * 0.005;
+            //5 digit amount
+            challan05.toFixed(5);
+        } else {
+            challan05 = LoanAmount * 0.005;
+            //4 digit amount
+            challan05.toFixed(4);
+        }
+
+        return {challan03 , challan05, dhc};
+    }
 
     const formik = useFormik({
         initialValues : {
@@ -12,9 +52,12 @@ export function HomePage() {
             Mobile : '',
             Email : '',
             AgentName : '',
-            LoanAmount : '',
+            LoanAmount : 0,
             RateOfInterest : '',
-            IntimationCharges :''
+            IntimationCharges :'',
+            challan03 : 0,
+            challan05 : 0,
+            dhc : 300
         },
         validationSchema : yup.object({
             FirstName : yup.string().required("First name required"),
@@ -27,19 +70,60 @@ export function HomePage() {
             .matches(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,"Invalid email format (e.g., user@example.com)")
             ,
             AgentName : yup.string().required("Select agent name"),
-            LoanAmount : yup.number().required("Loan amount required").min(100000,"Amount can't be less than 100000"),
-            RateOfInterest : yup.number().required("Rate of interest required"),
-            IntimationCharges : yup.string().required("Intimation charges required")
+            LoanAmount : yup.number().required("Loan amount required").min(100000,"Amount can't be less than 1,00,000"),
+            RateOfInterest : yup.string().required("Rate of interest required").matches(/^\d*\.?\d+$/,"Only Numbers are allowed"),
+            IntimationCharges : yup.number().required("Intimation charges required")
         }),
-        onSubmit: (calculate) => {
+        onSubmit: (calculate , {resetForm}) => {
 
+            const LoanAmount = calculate.LoanAmount;
+            const charges = calculateChallan(LoanAmount);
+            let IntimationCharges = calculate.IntimationCharges;
+            let FirstName = calculate.FirstName;
+            let LastName = calculate.LastName;
+
+            const totalAmount = charges.challan03 + charges.challan05 + charges.dhc + IntimationCharges;
+            const footerText = `
+            Client Name        : ${FirstName} ${LastName}
+            Loan Amount        : ${LoanAmount.toLocaleString("en-IN",{maximumFractionDigits : 2})}
+            0.3 % Challan      : ${charges.challan03} 
+            0.5 % Challan      : ${charges.challan05} 
+            DHC Charges        : ${charges.dhc} 
+            Intimation Charges : ${IntimationCharges}
+            Total Amount       : ${totalAmount.toLocaleString()}
+            `
+
+            axios.post(`http://127.0.0.1:7575/calculate-amount`,{...calculate , ...charges}).then((response)=>{
+
+                Swal.fire({
+                    showConfirmButton : false,
+                    icon : "success",
+                    text : "Amount calculated & saved in database",
+                    html : `
+                        <p><strong>${footerText}</strong></p>
+                        <button class="swal2-confirm swal2-styled" id="copyButton">Copy</button>
+                    `,
+                    didOpen : () => {
+                        document.getElementById("copyButton").addEventListener("click",()=>{
+                            navigator.clipboard.writeText(footerText);
+                            Swal.fire("Copied","Success")
+                        });
+                    }
+                    //footer : `Total : `+(charges.challan03 + charges.challan05 + charges.dhc + IntimationCharges).toLocaleString()
+                });
+                resetForm();
+            }).catch((error)=>{console.log(error)});
         }
     })
 
+    
+    useEffect(()=>{
 
-    function CalculateFees(){
+        axios.get(`http://127.0.0.1:7575/get-agents`).then((response)=>{
+            setAgents(response.data);
+        }).catch(error => {console.log("Error in fetching agents",error);})
+    },[])
 
-    }
 
     return(
         <div className="d-flex justify-content-evenly min-vh-100 p-2">
@@ -47,31 +131,33 @@ export function HomePage() {
             <div className="mt-3 mb-3 w-100 shadow-lg rounded-4">
                 <form onSubmit={formik.handleSubmit} className="row justify-content-evenly p-3 m-3">
                 
-                <div className=" text-center mb-4 fw-bold fs-4">Intimation Calculator</div>
+                <div className="text-center mb-4 fw-bold fs-4">Intimation Calculator</div>
 
                 
                 <Typography className="text-center text-muted mb-4">Welcome! Please enter your details</Typography>
                 
                 
-                <div className=" col-md-5 mb-3">
+                <div className=" col-md-5 mb-3 animate__animated animate__fadeInLeft">
                 
                 <TextField 
                 fullWidth 
                     variant="outlined" 
                     label="First Name"
                     name="FirstName"
-                    onChange={formik.handleChange}
+                    className="text-uppercase"
+                    onChange={(e)=>{formik.setFieldValue("FirstName",e.target.value.toUpperCase());}}
                 >
 
                 </TextField>
                 <span className="text-danger">{formik.errors.FirstName}</span>
                     </div>
 
-                    <div className="col-md-5 mb-3">
+                    <div className="col-md-5 mb-3 ">
                     <TextField 
+                    className="animate__animated animate__slideInRight"
                     fullWidth 
                     variant="outlined" 
-                    onChange={formik.handleChange}
+                    onChange={(e)=>{formik.setFieldValue("LastName",e.target.value.toUpperCase());}}
                     label="Last Name"
                     name="LastName"
                 >
@@ -79,7 +165,7 @@ export function HomePage() {
                 <span className="text-danger">{formik.errors.LastName}</span>
                     </div>
 
-                    <div className="col-md-5 mb-3">
+                    <div className="col-md-5 mb-3 animate__animated animate__fadeInLeft">
                     <TextField fullWidth 
                 variant="outlined" 
                 label="Mobile"
@@ -90,40 +176,45 @@ export function HomePage() {
                 <span className="text-danger">{formik.errors.Mobile}</span>
                     </div>
 
-                    <div className="col-md-5 mb-3">
-                    <TextField type="email" fullWidth 
+                    <div className="col-md-5 mb-3 ">
+                    <TextField type="email" 
+                className="animate__animated animate__slideInRight"
+                fullWidth 
                 variant="outlined" 
                 label="Email"
                 name="Email"
-                onChange={formik.handleChange}
+                onChange={(e)=>{formik.setFieldValue("Email",e.target.value.toLowerCase());}}
                 >
                 </TextField>
                 <span className="text-danger">{formik.errors.Email}</span>
                     </div>
 
-                    <div className="col-md-5 mb-3">
-                   <FormControl fullWidth>
+                    <div className="col-md-5 mb-3 animate__animated animate__fadeInLeft">
+                     <FormControl fullWidth>
                         <InputLabel id="agent-name">Agent Name</InputLabel>
                         <Select
                         className="text-uppercase"
-                        onChange={formik.handleChange}
+                        onChange={(event)=>{formik.setFieldValue("AgentName",event.target.value)}}
                         labelId="agent-name"
                         label="agent-name"
                         name="AgentName"
+                        value={formik.values.AgentName}
                         >
-                        <MenuItem value="10">Avinash Bokade</MenuItem>
-                        <MenuItem value="20">Akshay Borkar</MenuItem>
-                        <MenuItem value="30">Shankar Tarale</MenuItem>
-                        <MenuItem value="40">Onkar Jadhao</MenuItem>
-                        <MenuItem value="50">Rajeev Bhute</MenuItem>
-                        <MenuItem value="60">Shrikant Bobade</MenuItem>
-                        <MenuItem value="70">Ganesh Tambe</MenuItem>
+                        
+                            {
+                                agents.length>0 ? (
+                                    agents.map((agent)=>
+                                    <MenuItem value={agent.AgentName} key={agent.AgentName} >{agent.AgentName}</MenuItem>)
+                                ):(<MenuItem disabled>No agents found</MenuItem>)
+                            }
+                        
+                        
                         </Select>
                    </FormControl>
                    <span className="text-danger">{formik.errors.AgentName}</span>
                     </div>
 
-                    <div className="col-md-5 mb-3">
+                    <div className="col-md-5 mb-3 animate__animated animate__slideInRight">
                     <TextField type="number" fullWidth
                 variant="outlined" 
                 onChange={formik.handleChange}
@@ -134,7 +225,7 @@ export function HomePage() {
                 <span className="text-danger">{formik.errors.LoanAmount}</span>
                     </div>
 
-                <div className="col-md-5 mb-3">
+                <div className="col-md-5 mb-3 animate__animated animate__fadeInLeft">
                     <TextField
                      onChange={formik.handleChange}
                     label="Rate Of Interest"
@@ -146,27 +237,32 @@ export function HomePage() {
                     <span className="text-danger">{formik.errors.RateOfInterest}</span>
                 </div>
 
-                <div className="col-md-5 mb-3">
-                    <TextField label="Intimation Charges" 
+                <div className="col-md-5 mb-3 animate__animated animate__fadeInRight">
+                    <TextField label="Intimation Charges"
+                    type="number" 
                     name="IntimationCharges"
-                    onChange={formik.handleChange} fullWidth>
+                    onChange={formik.handleChange} 
+                    fullWidth>
                         Intimation Charges
                     </TextField>
                     <span className="text-danger">{formik.errors.IntimationCharges}</span>
                 </div>
 
-                    <div className="col-md-5 mb-3 mt-2">
-                        <Button type="submit" fullWidth 
-                        variant="outlined"
+                    <div className="col-md-5 mb-3 mt-2 animate__animated animate__rubberBand">
+                        <Button 
+                        type="submit" 
+                        fullWidth 
+                        variant="contained"
                         color="success"
                         >Calculate</Button>
                     </div>
 
-                    <div className="col-md-5 mb-3 mt-2">
-                        <Button type="reset" fullWidth 
-                        variant="outlined"
-                        color="error"
-                        >Reset</Button>
+                    <div className="col-md-5 mb-3 mt-2 animate__animated animate__rubberBand">
+                        <Link to="/admin-login">
+                        <Button fullWidth 
+                        variant="contained"
+                        color="info"
+                        >Admin Login</Button></Link>
                     </div>
 
                 </form>

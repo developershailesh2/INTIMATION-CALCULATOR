@@ -30,9 +30,12 @@ export function AdminLogin() {
           if (admin.Password === user.Password) {
             setCookies("username", user.UserName);
             Swal.fire({
+              position : 'center',
               icon: "success",
-              title: "Login Successful",
+              text : 'Login Success',
+              showConfirmButton : false,              
               draggable: true,
+              timer : 800
             });
             navigate("/admin-dashboard");
           } else {
@@ -54,7 +57,6 @@ export function AdminLogin() {
   });
 
   return (
-    //<div className="text-primary h3">Admin Login</div>
     <div className="d-flex justify-content-center align-items-center min-vh-90">
       <div className="w-75 p-3">
         <form
