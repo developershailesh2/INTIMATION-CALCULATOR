@@ -1,4 +1,4 @@
-import { Button, FormControl, InputLabel, MenuItem, MenuList, Select, TextField, Typography } from "@mui/material";
+import { Button, FormControl, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material";
 import axios from "axios";
 import {useFormik} from "formik";
 import { useEffect, useState } from "react";
@@ -62,8 +62,8 @@ export function HomePage() {
         validationSchema : yup.object({
             FirstName : yup.string().required("First name required"),
             LastName : yup.string().required("Last name required"),
-            Mobile : yup.string().required("Mobile number required").
-            min(10,"Can't be less than 10 digits")
+            Mobile : yup.string().required("Mobile number required")
+            .min(10,"Can't be less than 10 digits")
             .max(10,"Can't be more than 10 digits")
             .matches(/^\d{10}$/, "Mobile number must be exactly 10 digits"),
             Email : yup.string().required("Email required").email("Invalid format")
@@ -84,13 +84,13 @@ export function HomePage() {
 
             const totalAmount = charges.challan03 + charges.challan05 + charges.dhc + IntimationCharges;
             const footerText = `
-            Client Name        : ${FirstName} ${LastName}
-            Loan Amount        : ${LoanAmount.toLocaleString("en-IN",{maximumFractionDigits : 2})}
-            0.3 % Challan      : ${charges.challan03} 
-            0.5 % Challan      : ${charges.challan05} 
-            DHC Charges        : ${charges.dhc} 
+            Client Name  : ${FirstName} ${LastName}
+            Loan Amount  : ${LoanAmount.toLocaleString("en-IN",{maximumFractionDigits : 2})}
+            0.3 % Challan : ${charges.challan03} 
+            0.5 % Challan : ${charges.challan05} 
+            DHC Charges : ${charges.dhc} 
             Intimation Charges : ${IntimationCharges}
-            Total Amount       : ${totalAmount.toLocaleString()}
+            Total Amount : ${totalAmount.toLocaleString()}
             `
 
             axios.post(`http://127.0.0.1:7575/calculate-amount`,{...calculate , ...charges}).then((response)=>{
@@ -131,10 +131,10 @@ export function HomePage() {
             <div className="mt-3 mb-3 w-100 shadow-lg rounded-4">
                 <form onSubmit={formik.handleSubmit} className="row justify-content-evenly p-3 m-3">
                 
-                <div className="text-center mb-4 fw-bold fs-4">Intimation Calculator</div>
+                <div className="animate__animated animate__backInLeft text-center mt-4 mb-2 text-danger fw-bold fs-4">Intimation Calculator</div>
 
                 
-                <Typography className="text-center text-muted mb-4">Welcome! Please enter your details</Typography>
+                <Typography className="text-center text-muted mb-4 animate__animated animate__backInRight">Welcome! Please enter customer details</Typography>
                 
                 
                 <div className=" col-md-5 mb-3 animate__animated animate__fadeInLeft">

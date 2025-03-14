@@ -98,6 +98,16 @@ app.post("/calculate-amount",(req,res)=>{
 })
 
 
+app.get("/get-clients",(req , res) => {
+    mongoClient.connect(connectionString).then((clientObj)=>{
+        var database = clientObj.db("intimation-calculator");
+        database.collection("client-amount").find({}).toArray().then((documents)=>{
+            console.log(documents);
+            res.send(documents);
+            res.end();
+        })
+    })
+})
 
 
 app.get("/",(req , res) => {

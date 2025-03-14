@@ -103,7 +103,7 @@ export function AdminLogin() {
           <div className="col-md-8 d-flex justify-content-center gap-3">
             <Button
               type="submit"
-              variant="outlined"
+              variant="contained"
               className="fw-bold mt-2 mb-3 w-50"
             >
               Login
@@ -112,7 +112,7 @@ export function AdminLogin() {
             <Link to="/" className="w-50 text-decoration-none">
               <Button
                 fullWidth
-                variant="outlined"
+                variant="contained"
                 color="secondary"
                 className="mt-2 mb-3"
               >

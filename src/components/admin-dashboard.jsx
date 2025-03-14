@@ -1,4 +1,4 @@
-import { Button, Card, TextField } from "@mui/material";
+import { Button, Card, CardActions, CardContent, TextField, Typography } from "@mui/material";
 import { useCookies } from "react-cookie";
 import {useNavigate} from "react-router-dom";
 import * as yup from "yup";
@@ -12,6 +12,20 @@ import { useEffect, useState } from "react";
 export function AdminDashBoard() {
   const [Cookies, removeCookies] = useCookies(["username"]);
   const[agents , setAgents] = useState([''])
+  const [clients , setClients] = useState([{
+    FirstName : '',
+    LastName : '',
+    Mobile : '',
+    Email : '',
+    AgentName : '',
+    LoanAmount : 0,
+    RateOfInterest : '',
+    challan03 : 0,
+    challan05 : 0,
+    dhc : 0,
+    IntimationCharges : 0,
+  }]);
+
   let navigate = useNavigate();
 
     const formik = useFormik({
@@ -43,6 +57,12 @@ export function AdminDashBoard() {
     })
 
     useEffect(()=>{
+        axios.get("http://127.0.0.1:7575/get-clients").then((response)=>{
+            setClients(response.data);
+        }).catch(error => {console.log(`Error in fetching clients `,error)});
+    },[])
+
+    useEffect(()=>{
         axios.get(`http://127.0.0.1:7575/get-agents`).then((response)=>{
             setAgents(response.data);
         }).catch(error => {console.log("Error",error)});
@@ -51,7 +71,7 @@ export function AdminDashBoard() {
     function handleSignOut(){
         removeCookies("username");
         Swal.fire({
-            position : 'top-end',
+            position : 'center',
             icon:"success",
             text : "Log out successful",
             draggable: true,
@@ -73,13 +93,17 @@ export function AdminDashBoard() {
       </div>
 
 
-        <div className="d-flex justify-content-evenly m-1">
+        <div className="d-flex shadow-lg border border-warning rounded-2 m-2 flex-column flex-md-row gap-3 p-3 justify-content-evenly">
         
         
-        <Button variant="contained" data-bs-toggle="modal" data-bs-target="#modal" color="warning">Add Agent</Button>
+        <Button className="animate__animated animate__backInDown" variant="contained" data-bs-toggle="modal" data-bs-target="#modal" color="error">Add New Agent</Button>
         
-        <Button variant="contained" data-bs-toggle="modal" data-bs-target="#agent-modal" color="warning">Show All Agents</Button>
+        <Button className="animate__animated animate__backInDown" variant="contained" data-bs-toggle="modal" data-bs-target="#agent-modal" color="success">Show All Agents</Button>
+
+        {/* <Button className="animate__animated animate__backInDown" variant="contained" color="info">Show All Clients</Button> */}
        
+       
+
            <div className="modal fade" id="agent-modal">
                 <div className="modal-dialog modal-xl modal-dialog-scrollable ">
                     <div className="modal-content">
@@ -130,6 +154,45 @@ export function AdminDashBoard() {
             </div>
 
         </div>
+
+        <div className="container">
+                
+            <div className="mt-3 fw-bold">
+                Total Customer : <span className="text-danger"> 
+                    {clients.length}</span> 
+            </div>
+                        
+            <div className="d-flex flex-wrap justify-content-center">
+
+           
+                {
+                    clients.length > 0 ? (clients.map((client) => 
+                        <Card className="animate__animated animate__fadeInUp col-md-3 m-2 p-2 mb-3 rounded-3 shadow" key={client} variant="outlined">
+                    <Typography color="info" className="text-center bg-light fw-bold fs-5"> Customer Data </Typography>
+                    <CardContent className="fw-semibold">
+                            <Typography variant="inherit" color="warning">Customer Name : {client.FirstName} {client.LastName}  </Typography>
+                            <Typography variant="inherit">Mobile : {client.Mobile} </Typography>
+                            <Typography variant="inherit" color="primary">Email : {client.Email} </Typography>
+                            <Typography variant="inherit">Agent Name : {client.AgentName} </Typography>
+                            <Typography variant="inherit" color="secondary">Loan Amount : {client.LoanAmount} </Typography>
+                            <Typography variant="inherit">Rate of Interest : {client.RateOfInterest} % </Typography>
+                            <Typography variant="inherit" color="warning">Challan 0.3 % : {client.challan03} </Typography>
+                            <Typography variant="inherit" color="warning">Challan 0.5 % : {client.challan05} </Typography>
+                            <Typography variant="inherit" color="warning">DHC Charges : {client.dhc} </Typography>
+                            <Typography variant="inherit">Intimation Charges : {client.IntimationCharges} </Typography>
+    
+                    </CardContent>
+                    <CardActions className="d-flex justify-content-evenly">
+                            <Button size="small" variant="contained" color="info">Edit</Button>
+                            <Button size="small" variant="contained" color="error">Delete</Button>
+                    </CardActions>
+                </Card>)):(
+                    <p className="text-danger fs-3 text-center">No clients found</p>
+                )}
+                
+            
+            </div>
+       </div>
         
         </div>
 

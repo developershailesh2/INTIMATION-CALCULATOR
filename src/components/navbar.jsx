@@ -5,15 +5,11 @@ import {
   Button,
   IconButton,
   Toolbar,
+  Tooltip,
   Typography,
-  Drawer,
-  List,
-  ListItem,
-  ListItemText,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
-import { Link } from "react-router-dom";
-import LoginIcon from '@mui/icons-material/Login';
+import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 
 export function NavBar() {
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -23,7 +19,7 @@ export function NavBar() {
       <AppBar position="static">
         <Toolbar>
           {/* Menu Button (Visible only on small screens) */}
-          <IconButton
+          {/* <IconButton
             size="medium"
             edge="start"
             color="inherit"
@@ -32,7 +28,7 @@ export function NavBar() {
             onClick={() => setDrawerOpen(true)}
           >
             <MenuIcon />
-          </IconButton>
+          </IconButton> */}
 
           <Typography
             component="div"
@@ -43,21 +39,22 @@ export function NavBar() {
             Intimation Calculator
           </Typography>
 
-          <Box sx={{ display: { xs: "none", md: "block" } }}>
-            <Link to='/admin-login'>
+          {/* <Box sx={{ display: { xs: "none", md: "block" } }}>
+            
+            <Tooltip>
             <Button
               className="animate__animated animate__bounceInDown fw-bold"
-              variant="contained"
-              color="secondary"
+              color="inherit"
             >
-             <span className="mx-2"><LoginIcon /></span> Admin Login 
+             <span><DarkModeOutlinedIcon /></span> 
             </Button>
-            </Link>
-          </Box>
+            </Tooltip>
+            
+          </Box> */}
         </Toolbar>
       </AppBar>
 
-      <Drawer
+      {/* <Drawer
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
@@ -69,7 +66,7 @@ export function NavBar() {
            </Link>
           </ListItem>
         </List>
-      </Drawer>
+      </Drawer> */}
     </Box>
   );
 }
