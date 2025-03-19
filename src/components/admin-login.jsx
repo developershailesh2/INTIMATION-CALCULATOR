@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import { Cookies, useCookies } from "react-cookie";
 
 export function AdminLogin() {
-  const [cookies, setCookies] = useCookies([Cookies["username"]]);
+  const [cookies, setCookies] = useCookies(["username"]);
 
   let navigate = useNavigate();
 
@@ -25,31 +25,49 @@ export function AdminLogin() {
         var user = response.data.find(
           (item) => item.UserName === admin.UserName
         );
-        console.log(user);
         if (user) {
           if (admin.Password === user.Password) {
-            setCookies("username", user.UserName);
+            let timerInterval;
             Swal.fire({
-              position : 'center',
-              icon: "success",
-              text : 'Login Success',
-              showConfirmButton : false,              
-              draggable: true,
-              timer : 800
+              html: "Please wait, signing in <b></b> miliseconds",
+              title: "Signing In...",
+              timer: 800,
+              timerProgressBar: true,
+              didOpen: () => {
+                Swal.showLoading();
+                const timer = Swal.getPopup().querySelector("b");
+                timerInterval = setInterval(() => {
+                  timer.textContent = `${Swal.getTimerLeft()}`;
+                }, 100);
+              },
+              willClose: () => {
+                clearInterval(timerInterval);
+              },
+            }).then(() => {
+              Swal.fire({
+                icon: "success",
+                title: "Welcome Back!",
+                showConfirmButton: false,
+                text: "You have successfully signed in",
+                timer: 1000,
+              }).then(() => {
+                setCookies("username", user.UserName);
+                navigate("/admin-dashboard");
+              });
             });
-            navigate("/admin-dashboard");
           } else {
             Swal.fire({
               icon: "error",
-              text: "Invalid Password",
+              title: "Access Denied",
+              text: "The password you entered is incorrect.",
               draggable: true,
             });
           }
         } else {
           Swal.fire({
             icon: "error",
-            title: "Invalid Username",
-            draggable: true,
+            title: "User Not Found",
+            text: "No account exists with this username. Please check and try again.",
           });
         }
       });
@@ -58,7 +76,7 @@ export function AdminLogin() {
 
   return (
     <div className="d-flex justify-content-center align-items-center min-vh-90">
-      <div className="w-75 p-3">
+      <div className="w-75 p-3 mt-5">
         <form
           onSubmit={formik.handleSubmit}
           className="animate__animated animate__bounceInLeft row justify-content-center align-items-center border border-danger mt-5 rounded-2 p-3 "
@@ -70,13 +88,14 @@ export function AdminLogin() {
             Welcome Admin, please sign in to continue
           </p>
 
-          <div className="col-md-8 mt-2 mb-3">
+          <div className="col-md-8 mt-2 mb-3 animate__animated animate__slideInLeft">
             <TextField
               label="User Name *"
               // className="form-control"
               fullWidth
               color="secondary"
               name="UserName"
+              error={formik.errors.UserName}
               onChange={formik.handleChange}
             >
               User Name
@@ -84,12 +103,13 @@ export function AdminLogin() {
             <span className="text-danger">{formik.errors.UserName}</span>
           </div>
 
-          <div className="col-md-8 mt-2 mb-3">
+          <div className="col-md-8 mt-2 mb-3 animate__animated animate__slideInRight">
             <TextField
               type="password"
               fullWidth
               color="secondary"
               label="Password *"
+              error={formik.errors.Password}
               name="Password"
               onChange={formik.handleChange}
             >
@@ -99,26 +119,21 @@ export function AdminLogin() {
             <span className="text-danger">{formik.errors.Password}</span>
           </div>
 
-          {/* Buttons */}
-          <div className="col-md-8 d-flex justify-content-center gap-3">
+          <div className="col-md-8 d-flex flex-column flex-md-row justify-content-around">
             <Button
               type="submit"
               variant="contained"
-              className="fw-bold mt-2 mb-3 w-50"
+              className="fw-bold mt-2 mb-3"
             >
               Login
             </Button>
 
-            <Link to="/" className="w-50 text-decoration-none">
-              <Button
-                fullWidth
-                variant="contained"
-                color="secondary"
-                className="mt-2 mb-3"
-              >
+            <Button variant="contained" color="secondary" className="mt-2 mb-3">
+              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
+                {" "}
                 Back
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </div>
         </form>
       </div>
