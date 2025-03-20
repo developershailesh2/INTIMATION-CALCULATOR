@@ -16,7 +16,7 @@ import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 
 export function AdminDashBoard() {
-  const [Cookies, removeCookie] = useCookies(["username"]);
+  const [Cookies, setCookies, removeCookie] = useCookies(["username"]);
   const [agents, setAgents] = useState([""]);
   const [searchclient, setSearchClient] = useState("");
   const [selectclient, setSelectClient] = useState(null);
