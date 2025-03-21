@@ -393,14 +393,13 @@ Total Amount : ${totalAmount.toLocaleString()}`;
               className="mt-3"
               variant="contained"
               color="warning"
+              sx = {{backgroundColor : "#6200ee"}}
             >
               Calculate
             </Button>
 
-            <Button className="mt-3" variant="contained" color="primary">
-              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                Back
-              </Link>
+            <Button to="/" LinkComponent={Link} className="mt-3" variant="contained" color="error">
+              Back
             </Button>
           </div>
         </form>

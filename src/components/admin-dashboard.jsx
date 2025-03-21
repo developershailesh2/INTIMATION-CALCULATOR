@@ -394,6 +394,7 @@ export function AdminDashBoard() {
                     Intimation Charges: {client.IntimationCharges}
                   </Typography>
                   <Typography className="mt-1" variant="inherit">
+                    Date :{" "}
                     {new Date(client.CreatedAt).toLocaleDateString("en-IN", {
                       day: "2-digit",
                       month: "short",
@@ -403,17 +404,32 @@ export function AdminDashBoard() {
                 </CardContent>
                 <CardActions className="d-flex justify-content-evenly mb-2">
                   <Link to={`/edit-detail/${client._id}`}>
-                    <Button size="small" variant="outlined" color="secondary">
+                    <Button
+                      className="fw-semibold"
+                      sx={{
+                        "&:hover": {
+                          backgroundColor: "#a202be",
+                          color: "white",
+                        },
+                      }}
+                      size="small"
+                      variant="outlined"
+                      color="secondary"
+                    >
                       Edit
                     </Button>
                   </Link>
                   <Button
                     onClick={() => setSelectClient(client)}
                     size="small"
+                    className="fw-semibold"
                     data-bs-toggle="modal"
                     data-bs-target="#modal-delete"
                     variant="outlined"
                     color="error"
+                    sx={{
+                      "&:hover": { backgroundColor: "#d90505", color: "white" },
+                    }}
                   >
                     Delete
                   </Button>

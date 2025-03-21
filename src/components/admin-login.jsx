@@ -119,20 +119,19 @@ export function AdminLogin() {
             <span className="text-danger">{formik.errors.Password}</span>
           </div>
 
-          <div className="col-md-8 d-flex flex-column flex-md-row justify-content-around">
+          <div className="col-md-8 d-flex flex-column flex-md-row justify-content-around ">
             <Button
               type="submit"
               variant="contained"
-              className="fw-bold mt-2 mb-3"
+              className="mt-2 mb-3"
+              color="error"
+              
             >
               Login
             </Button>
 
-            <Button variant="contained" color="secondary" className="mt-2 mb-3">
-              <Link to="/" style={{ textDecoration: "none", color: "white" }}>
-                {" "}
-                Back
-              </Link>
+            <Button to="/" LinkComponent={Link} variant="contained" color="secondary" className="mt-2 mb-3">
+              Back
             </Button>
           </div>
         </form>

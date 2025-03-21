@@ -91,11 +91,11 @@ export function AdminEdit() {
   }, [params._id]);
 
   return (
-    <div className="d-flex justify-content-evenly min-vh-75 p-3 m-3 p-3">
+    <div className="d-flex justify-content-evenly min-vh-75 p-3 m-3 ">
       <div className="w-100  mt-4 border border-primary rounded-3">
-        <div className="mt-4 text-center fw-semibold text-warning text-uppercase fs-4">
+        <p className="mt-4 text-center fw-bold text-danger text-uppercase fs-4">
           Edit Details
-        </div>
+        </p>
         <form
           onSubmit={formik.handleSubmit}
           className="row justify-content-evenly m-3 p-3"
@@ -147,15 +147,25 @@ export function AdminEdit() {
               value={formik.values.Email}
               error={formik.errors.Email}
             ></TextField>
-            {/* <span className="text-danger">{formik.errors.Email}</span> */}
+            <span className="text-danger">{formik.errors.Email}</span>
           </div>
 
           <div className="d-flex flex-column flex-md-row col-12 justify-content-evenly mt-3">
-            <Button type="submit" variant="contained" className="mt-3">
+            <Button
+              type="submit"
+              variant="contained"
+              color="success"
+              className="mt-3"
+            >
               Update
             </Button>
             <Link to="/admin-dashboard">
-              <Button fullWidth variant="contained" className="mt-3">
+              <Button
+                fullWidth
+                variant="contained"
+                color="error"
+                className="mt-3"
+              >
                 Cancel
               </Button>
             </Link>
