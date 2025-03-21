@@ -218,7 +218,7 @@ export function AdminDashBoard() {
                 ></button>
               </div>
               <div className="modal-body">
-                <p className="fs-5">
+                <p className="fs-5 fw-semibold">
                   Total Agents : <strong>{agents.length}</strong>
                 </p>
                 <div className="row justify-content-center">
