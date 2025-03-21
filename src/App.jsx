@@ -12,29 +12,48 @@ import { Cookies } from "react-cookie";
 import { ErrorPage } from "./components/error-page";
 import { HomePage } from "./components/home-page";
 import { AmountCalculator } from "./components/amount-calculate";
+import { useEffect, useState } from "react";
 
 function App() {
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    setLoading(true);
+
+    setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+  }, []);
+
   return (
-    <BrowserRouter>
-      <NavBar />
-      <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="amount-calculate" element={<AmountCalculator />} />
-        <Route path="admin-login" element={<AdminLogin />} />
-        <Route
-          path="admin-dashboard"
-          element={
-            !Cookies.username ? (
-              <AdminDashBoard />
-            ) : (
-              <Navigate to="/admin-login" />
-            )
-          }
-        />
-        <Route path="edit-detail/:_id" element={<AdminEdit />} />
-        <Route path="*" element={<ErrorPage />} />
-      </Routes>
-    </BrowserRouter>
+    <div>
+      {loading ? (
+        <div className="loader-container">
+          <div className="loader"></div>
+        </div>
+      ) : (
+        <BrowserRouter>
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="amount-calculate" element={<AmountCalculator />} />
+            <Route path="admin-login" element={<AdminLogin />} />
+            <Route
+              path="admin-dashboard"
+              element={
+                !Cookies.username ? (
+                  <AdminDashBoard />
+                ) : (
+                  <Navigate to="/admin-login" />
+                )
+              }
+            />
+            <Route path="edit-detail/:_id" element={<AdminEdit />} />
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </BrowserRouter>
+      )}
+    </div>
   );
 }
 

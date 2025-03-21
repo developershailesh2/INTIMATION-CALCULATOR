@@ -177,12 +177,16 @@ Total Amount : ${totalAmount.toLocaleString()}`;
                     navigator.clipboard
                       .writeText(footerText)
                       .then(() => {
-                        Swal.fire({
-                          icon: "success",
-                          position: "top-right",
-                          text: "Copied Successfully",
-                          timer: 1000,
+                        const Toast = Swal.mixin({
+                          toast: true,
+                          position: "top-end",
+                          timer: 2000,
+                          timerProgressBar: true,
                           showConfirmButton: false,
+                        });
+                        Toast.fire({
+                          icon: "success",
+                          title: "Copied successfully",
                         }).then(() => {
                           window.location.reload(true);
                         });
@@ -393,12 +397,18 @@ Total Amount : ${totalAmount.toLocaleString()}`;
               className="mt-3"
               variant="contained"
               color="warning"
-              sx = {{backgroundColor : "#6200ee"}}
+              sx={{ backgroundColor: "#6200ee" }}
             >
               Calculate
             </Button>
 
-            <Button to="/" LinkComponent={Link} className="mt-3" variant="contained" color="error">
+            <Button
+              to="/"
+              LinkComponent={Link}
+              className="mt-3"
+              variant="contained"
+              color="error"
+            >
               Back
             </Button>
           </div>

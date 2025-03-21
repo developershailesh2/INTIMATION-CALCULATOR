@@ -63,14 +63,19 @@ export function AdminEdit() {
     onSubmit: (values) => {
       axios
         .put(`http://127.0.0.1:7575/edit-detail/${params._id}`, values)
-        .then((response) => {
-          Swal.fire({
-            icon: "success",
-            text: "Details updated successfully",
-            timer: 3000,
-          });
-          //console.log("Updated Successfully : ",response.data);
+        .then(() => {
           navigate("/admin-dashboard");
+          const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 2000,
+            timerProgressBar: true,
+          });
+          Toast.fire({
+            icon: "success",
+            title: "Details updated successfully",
+          });
         })
         .catch((error) => {
           console.log(error);

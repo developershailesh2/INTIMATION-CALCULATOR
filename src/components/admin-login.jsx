@@ -44,16 +44,32 @@ export function AdminLogin() {
                 clearInterval(timerInterval);
               },
             }).then(() => {
-              Swal.fire({
-                icon: "success",
-                title: "Welcome Back!",
+              setCookies("username", user.UserName);
+              navigate("/admin-dashboard");
+              const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
                 showConfirmButton: false,
-                text: "You have successfully signed in",
-                timer: 1000,
-              }).then(() => {
-                setCookies("username", user.UserName);
-                navigate("/admin-dashboard");
+                timer: 2200,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                  toast.onmouseenter = Swal.stopTimer;
+                  toast.onmouseleave = Swal.resumeTimer;
+                },
               });
+              Toast.fire({
+                icon: "success",
+                title: "Signed in successfully",
+              }).then(() => {
+                window.location.reload(true);
+              });
+
+              // Swal.fire({
+              //   icon: "success",
+              //   title: "Welcome Back!",
+              //   showConfirmButton: false,
+              //   text: "You have successfully signed in",
+              //   timer: 1000,
             });
           } else {
             Swal.fire({
@@ -125,12 +141,17 @@ export function AdminLogin() {
               variant="contained"
               className="mt-2 mb-3"
               color="error"
-              
             >
               Login
             </Button>
 
-            <Button to="/" LinkComponent={Link} variant="contained" color="secondary" className="mt-2 mb-3">
+            <Button
+              to="/"
+              LinkComponent={Link}
+              variant="contained"
+              color="secondary"
+              className="mt-2 mb-3"
+            >
               Back
             </Button>
           </div>

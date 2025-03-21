@@ -14,6 +14,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
+import { Toast } from "bootstrap";
 
 export function AdminDashBoard() {
   const [Cookies, setCookies, removeCookie] = useCookies(["username"]);
@@ -120,15 +121,23 @@ export function AdminDashBoard() {
       },
     }).then(() => {
       removeCookie("username");
-      Swal.fire({
-        title: "You have been signed out",
-        text: "You have successfully log out.",
-        icon: "success",
+      const Toast = Swal.mixin({
+        toast: true,
+        position: "top-end",
         showConfirmButton: false,
-        timer: 1000,
-      }).then(() => {
-        navigate("/admin-login", { replace: true });
+        timer: 1400,
+        timerProgressBar: true,
       });
+      Toast.fire({
+        icon: "success",
+        title: "Signed out successfully",
+      })
+        .then(() => {
+          navigate("/admin-login", { replace: true });
+        })
+        .then(() => {
+          window.location.reload(true);
+        });
     });
   }
 
@@ -249,8 +258,9 @@ export function AdminDashBoard() {
           <div className="modal-dialog modal-dialog-centered">
             <div className="modal-content">
               <div className="modal-header">
-                <div className="modal-title text-uppercase fs-5">
-                  Add New Agent
+                <div className="modal-title text-uppercase fs-5 fw-bold text-primary">
+                  Add New Agent{" "}
+                  <span className="bi bi-person-check-fill"></span>
                 </div>
                 <button
                   className="btn btn-close"
@@ -405,14 +415,14 @@ export function AdminDashBoard() {
                 <CardActions className="d-flex justify-content-evenly mb-2">
                   <Link to={`/edit-detail/${client._id}`}>
                     <Button
-                      className="fw-semibold"
+                      className="p-1"
                       sx={{
                         "&:hover": {
                           backgroundColor: "#a202be",
                           color: "white",
                         },
                       }}
-                      size="small"
+                      size="medium"
                       variant="outlined"
                       color="secondary"
                     >
@@ -421,14 +431,14 @@ export function AdminDashBoard() {
                   </Link>
                   <Button
                     onClick={() => setSelectClient(client)}
-                    size="small"
-                    className="fw-semibold"
+                    size="medium"
+                    className="p-1 w-25"
                     data-bs-toggle="modal"
                     data-bs-target="#modal-delete"
                     variant="outlined"
                     color="error"
                     sx={{
-                      "&:hover": { backgroundColor: "#d90505", color: "white" },
+                      "&:hover": { backgroundColor: "#d00000", color: "white" },
                     }}
                   >
                     Delete
