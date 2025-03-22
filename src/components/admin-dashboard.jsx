@@ -15,6 +15,8 @@ import Swal from "sweetalert2";
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
 import { Toast } from "bootstrap";
+import AOS from "aos";
+import "aos/dist/aos.css";
 
 export function AdminDashBoard() {
   const [Cookies, setCookies, removeCookie] = useCookies(["username"]);
@@ -99,6 +101,14 @@ export function AdminDashBoard() {
       .catch((error) => {
         console.log("Error", error);
       });
+  }, []);
+
+  useEffect(() => {
+    AOS.init({
+      duration: 1000,
+      once: true,
+      mirror: false,
+    });
   }, []);
 
   function handleSignOut() {
@@ -337,14 +347,15 @@ export function AdminDashBoard() {
           {filteredClients.length > 0 ? (
             filteredClients.map((client) => (
               <Card
+                data-aos={client % 2 === 0 ? "flip-left" : "flip-right"}
                 sx={{
-                  transition: "transform 0.3s ease-in-out",
+                  transition: "transform 0.5s ease-in-out",
                   "&:hover": {
                     transform: "scale(1.05)",
                     boxShadow: "0px 4px 20px rgba(91, 89, 89, 0.2)",
                   },
                 }}
-                className="animate__animated animate__fadeInUp col-md-3 m-3 mt-4 rounded-3"
+                className="col-md-3 m-3 mt-4 rounded-3"
                 key={client}
                 variant="outlined"
               >

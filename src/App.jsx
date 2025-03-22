@@ -13,6 +13,7 @@ import { ErrorPage } from "./components/error-page";
 import { HomePage } from "./components/home-page";
 import { AmountCalculator } from "./components/amount-calculate";
 import { useEffect, useState } from "react";
+import Aos from "aos";
 
 function App() {
   const [loading, setLoading] = useState(true);
