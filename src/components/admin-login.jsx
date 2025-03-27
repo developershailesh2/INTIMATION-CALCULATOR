@@ -50,7 +50,7 @@ export function AdminLogin() {
                 toast: true,
                 position: "top-end",
                 showConfirmButton: false,
-                timer: 2200,
+                timer: 1500,
                 timerProgressBar: true,
                 didOpen: (toast) => {
                   toast.onmouseenter = Swal.stopTimer;
@@ -60,8 +60,6 @@ export function AdminLogin() {
               Toast.fire({
                 icon: "success",
                 title: "Signed in successfully",
-              }).then(() => {
-                window.location.reload(true);
               });
 
               // Swal.fire({
