@@ -329,6 +329,7 @@ export function AdminDashBoard() {
               placeholder="Enter client Name or Agent Name"
               size="medium"
               fullWidth
+              
               color="secondary"
               label="search"
               value={searchclient}
@@ -339,6 +340,7 @@ export function AdminDashBoard() {
                 transition: "width 0.4s ease-in-out",
                 "&:focus-within": { width: "100%" },
               }}
+
             />
           </div>
         </div>

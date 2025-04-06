@@ -5,13 +5,14 @@ import Typewriter from "typewriter-effect";
 export function HomePage() {
   return (
     <div
-      className="d-flex flex-column align-items-center m-3 mt-3 rounded-4 border border-primary text-center gap-md-5 p-5"
+      className="d-flex flex-column align-items-center bg-light shadow-lg rounded-3 text-center gap-md-5 p-5"
       style={{ minHeight: "85vh" }}
     >
-      <div className="mt-4 mb-3">
+     
+      <div className="mt-3 mb-3 p-3 rounded-4">
         <h2
         style={{}}
-         className="animate__animated animate__backInLeft text-primary fw-semibold  mt-4 ">Welcome To The Intimation Calculator</h2>
+         className="animate__animated animate__backInLeft text-primary fw-semibold">Welcome To The Intimation Calculator</h2>
         <h5 className="animate__animated animate__bounceInRight text-muted bg-light p-1 rounded mt-4" >
           <Typewriter
           
@@ -28,6 +29,7 @@ export function HomePage() {
           />
         </h5>
       </div>
+      
 
       <div className="my-2 w-100 d-flex justify-content-center animate__animated animate__zoomIn">
         <Link
@@ -38,20 +40,18 @@ export function HomePage() {
           <Button
             fullWidth
             className="animate__animated animate__fadeInLeft fs-6 py-3 "
-            variant="contained"
+            
             sx={{
-              bgcolor: "hsl(219, 89%, 55%)",
-              color: "white",
-              border: "1px solid white",
-              borderRadius: "8px",
-
+              fontFamily:'Roboto, sans-serif',
+              border: "2px solid red",
+              borderRadius: "10px",
+              color:"red",
               "&:hover": {
-                border: "2px solid white",
-                color: "white",
-                bgcolor: " hsl(219, 89%, 63%)",
+                color: "#fff",
+                bgcolor: "rgb(255, 0, 13)",
               },
 
-              fontWeight: "bold",
+              fontWeight: "semibold",
             }}
           >
             Billing Calculator
@@ -64,20 +64,20 @@ export function HomePage() {
           <Button
             fullWidth
             className="animate__animated animate__fadeInRight fs-6 py-3"
-            variant="contained"
+            
             sx={{
-              bgcolor: "hsl(219, 89%, 55%)",
-              color: "white",
-              border: "1px solid white",
-              borderRadius: "8px",
-
+              
+              border: "2px solid red",
+              borderRadius: "10px",
+              color:"red",
+              fontFamily:'Roboto, sans-serif',
               "&:hover": {
-                border: "2px solid white",
-                color: "white",
-                bgcolor: " hsl(219, 89%, 63%)",
+                border: "2px solid red",
+                color:"#fff",
+                bgcolor: "rgb(255, 0, 13)",
               },
 
-              fontWeight: "bold",
+              fontWeight: "semibold",
             }}
           >
             Admin Login

@@ -21,7 +21,7 @@ export function NavBar() {
         style={{ backgroundColor: "hotpink" }}
       >
         <div className="container-fluid">
-          <div className="navbar-brand  fs-4 fw-semibold">
+          <div className="navbar-brand text-white fs-3 fw-semibold">
             Intimation Calculator
           </div>
           <button
@@ -42,7 +42,7 @@ export function NavBar() {
             data-bs-backdrop="true"
           >
             <div className="offcanvas-header">
-              <h4 className="offcanvas-title">Intimation Calculator</h4>
+              <h4 className="offcanvas-title ">Intimation Calculator</h4>
 
               <button
                 className="btn btn-close"
@@ -50,7 +50,7 @@ export function NavBar() {
               ></button>
             </div>
 
-            <div className="offcanvas-body bg-light">
+            <div className="offcanvas-body bg-dark text-white">
               <div className="mt-5 text-start">
                 <h5>Time : {currentTime.toLocaleTimeString()}</h5>
                 <h5>
@@ -86,8 +86,8 @@ export function NavBar() {
             </div>
 
             <div
-              className="offcanvas-footer border border-dark m-2 rounded p-3 text-primary"
-              style={{ backgroundColor: "hsl(242, 56.50%, 82.00%)" }}
+              className="offcanvas-footer border border-dark m-2 rounded p-3 text-light"
+              style={{ backgroundColor: "hsl(242, 63.20%, 77.60%)" }}
             >
               <div className="mt-2">
                 <h4>Developed by Shailesh Gaikwad</h4>

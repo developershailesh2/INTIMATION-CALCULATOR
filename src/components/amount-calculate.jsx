@@ -1,11 +1,11 @@
 import {
   Button,
   FormControl,
-  InputLabel,
   MenuItem,
   Select,
   TextField,
   Typography,
+
 } from "@mui/material";
 import axios from "axios";
 import { useFormik } from "formik";
@@ -219,23 +219,24 @@ Total Amount : ${totalAmount.toLocaleString()}`;
   }, []);
 
   return (
-    <div className="d-flex justify-content-evenly min-vh-90 p-2">
-      <div className="mt-4 w-auto  m-3 rounded-3">
+    <div className="d-flex justify-content-evenly p-2">
+      <div className="w-auto m-3 rounded-3">
         <form
           onSubmit={formik.handleSubmit}
-          className="row justify-content-evenly p-3 m-3"
+          className="row justify-content-evenly rounded-3 pb-4"
+          style={{backgroundColor:"#f9f9f9"}}
         >
-          <div className="text-center mt-4 mb-2 text-danger fw-bold fs-4">
+          <div className="text-center mt-4 mb-3 text-danger fw-bold fs-4">
             <Typewriter
               options={{
                 strings: ["Intimation Calculator", "Calculate Customer Bill"],
                 autoStart: true,
                 loop: true,
-                delay: 50,
+                delay: 100,
               }}
             ></Typewriter>
           </div>
-          <Typography className="text-center text-muted mb-4">
+          {/* <Typography className="text-center text-muted mb-4">
             <Typewriter
               options={{
                 strings: ["Welcome", "Please enter customer details"],
@@ -245,78 +246,94 @@ Total Amount : ${totalAmount.toLocaleString()}`;
                 deleteSpeed: 50,
               }}
             ></Typewriter>
-          </Typography>
-          <div className=" col-md-5 mb-3 animate__animated animate__fadeInLeft">
+          </Typography> */}
+          <div className="text-center fw-bold mb-4" style={{color : "#11243A" , fontSize:"26px" , fontFamily:"sans-serif , inter"}}>Please fill customer basic details</div>
+          
+          <div className="col-md-5 mb-3 animate__animated animate__fadeInLeft">
+            <label htmlFor="FirstName" className="mt-3 mb-3" style={{fontFamily:"sans-serif , inter", fontSize:"15px" , color:"#333333"}}>First Name</label>
             <TextField
               fullWidth
               variant="outlined"
-              label="First Name"
+              placeholder="Enter First Name"
               name="FirstName"
-              className="text-uppercase"
-              error={formik.errors.FirstName}
+              className="text-uppercase bg-white"
+              error={formik.touched.FirstName && Boolean(formik.errors.FirstName)}
+              onBlur={()=>{if(formik.values.FirstName){formik.setFieldTouched("FirstName",true)}}}
               onChange={(e) => {
                 formik.setFieldValue("FirstName", e.target.value.toUpperCase());
               }}
             ></TextField>
-            <span className="text-danger">{formik.errors.FirstName}</span>
+            {formik.touched.FirstName && formik.errors.FirstName && (<span className="text-danger">{formik.errors.FirstName}</span>)}
+            
           </div>
           <div className="col-md-5 mb-3 ">
+          <label htmlFor="FirstName" className="mt-3 mb-3" style={{fontFamily:"sans-serif , inter", fontSize:"15px" , color:"#333333"}}>Last Name</label>
             <TextField
-              error={formik.errors.LastName}
-              className="animate__animated animate__slideInRight"
+              error={formik.touched.LastName && Boolean(formik.errors.LastName)}
+              onBlur={()=>{if(formik.values.LastName){formik.setFieldTouched("LastName",true)}}}
+              className="animate__animated animate__slideInRight bg-white"
               fullWidth
               variant="outlined"
               onChange={(e) => {
                 formik.setFieldValue("LastName", e.target.value.toUpperCase());
               }}
-              label="Last Name"
+              placeholder="Enter Last Name"
               name="LastName"
             ></TextField>
-            <span className="text-danger">{formik.errors.LastName}</span>
+             {formik.touched.LastName && formik.errors.LastName && (<span className="text-danger">{formik.errors.LastName}</span>)}
           </div>
 
           <div className="col-md-5 mb-3 animate__animated animate__fadeInLeft">
+          <label htmlFor="Mobile" className="mt-3 mb-3" style={{fontFamily:"sans-serif , inter", fontSize:"15px" , color:"#333333"}}>Mobile</label>
             <TextField
+            className="bg-white"
               fullWidth
               type="text"
               variant="outlined"
-              error={formik.errors.Mobile}
-              label="Mobile"
+              error={formik.touched.Mobile && Boolean(formik.errors.Mobile)}
+              onBlur={()=>{if(formik.values.Mobile){formik.setFieldTouched("Mobile",true)}}}
+              placeholder="Enter Mobile Number"
               onChange={formik.handleChange}
               name="Mobile"
             ></TextField>
-            <span className="text-danger">{formik.errors.Mobile}</span>
+             {formik.touched.Mobile && formik.errors.Mobile && (<span className="text-danger">{formik.errors.Mobile}</span>)}
           </div>
 
           <div className="col-md-5 mb-3 ">
+          <label htmlFor="Email" className="mt-3 mb-3" style={{fontFamily:"sans-serif , inter", fontSize:"15px" , color:"#333333"}}>Email</label>
             <TextField
               type="email"
-              className="animate__animated animate__slideInRight"
+              className="animate__animated animate__slideInRight bg-white"
               fullWidth
-              error={formik.errors.Email}
+              error={formik.touched.Email && Boolean(formik.errors.Email)}
+              onBlur={()=>{if(formik.values.Email){formik.setFieldTouched("Email",true)}}}
               variant="outlined"
-              label="Email"
+              placeholder="Enter Email Id"
               name="Email"
               onChange={(e) => {
                 formik.setFieldValue("Email", e.target.value.toLowerCase());
               }}
             ></TextField>
-            <span className="text-danger">{formik.errors.Email}</span>
+             {formik.touched.Email && formik.errors.Email && (<span className="text-danger">{formik.errors.Email}</span>)}
           </div>
 
           <div className="col-md-5 mb-3 animate__animated animate__fadeInLeft">
+          <label htmlFor="AgentName" className="mt-3 mb-3" style={{fontFamily:"sans-serif , inter", fontSize:"15px" , color:"#333333"}}>Agent Name</label>
+            
             <FormControl fullWidth>
-              <InputLabel id="agent-name">Agent Name</InputLabel>
+              
               <Select
-                className="text-uppercase"
-                error={formik.errors.AgentName}
+              displayEmpty
+                placeholder="Select Agent"
+                className="text-uppercase bg-white"
+                error={formik.touched.AgentName && Boolean(formik.errors.AgentName)}
+                onBlur={()=>{if(formik.values.AgentName){formik.setFieldTouched("AgentName",true)}}}
                 onChange={(event) => {
                   formik.setFieldValue("AgentName", event.target.value);
-                }}
-                labelId="agent-name"
-                label="agent-name"
+                }}               
                 name="AgentName"
                 value={formik.values.AgentName}
+                renderValue={formik.values.AgentName !== "" ? undefined : ()=><span style={{color: "#aaa" , textTransform:"capitalize"}}>Select Agent Name</span>}
               >
                 {agents.length > 0 ? (
                   agents.map((agent) => (
@@ -329,49 +346,56 @@ Total Amount : ${totalAmount.toLocaleString()}`;
                 )}
               </Select>
             </FormControl>
-            <span className="text-danger">{formik.errors.AgentName}</span>
+            {formik.touched.AgentName && formik.errors.AgentName && (<span className="text-danger">{formik.errors.AgentName}</span>)}
           </div>
 
           <div className="col-md-5 mb-3 animate__animated animate__slideInRight">
+          <label htmlFor="LoanAmount" className="mt-3 mb-3" style={{fontFamily:"sans-serif , inter", fontSize:"15px" , color:"#333333"}}>Loan Amount</label>
             <TextField
               type="number"
               fullWidth
               variant="outlined"
+              className="bg-white"
               onChange={formik.handleChange}
-              label="Loan Amount"
-              error={formik.errors.LoanAmount}
+              placeholder="Enter Loan Amount"
+              error={formik.touched.LoanAmount && Boolean(formik.errors.LoanAmount)}
+              onBlur={()=>{if(formik.values.LoanAmount){formik.setFieldTouched("LoanAmount",true)}}}
               name="LoanAmount"
             ></TextField>
-            <span className="text-danger">{formik.errors.LoanAmount}</span>
+             {formik.touched.LoanAmount && formik.errors.LoanAmount && (<span className="text-danger">{formik.errors.LoanAmount}</span>)}
           </div>
 
           <div className="col-md-5 mb-3 animate__animated animate__fadeInLeft">
+          <label htmlFor="AgentName" className="mt-3 mb-3" style={{fontFamily:"sans-serif , inter", fontSize:"15px" , color:"#333333"}}>Rate Of Interest</label>
             <TextField
               onChange={formik.handleChange}
-              label="Rate Of Interest"
+              placeholder="Enter Rate Of Interest"
               fullWidth
-              error={formik.errors.RateOfInterest}
+              className="bg-white"
+              error={formik.touched.RateOfInterest && Boolean(formik.errors.RateOfInterest)}
+              onBlur={()=>{if(formik.values.RateOfInterest){formik.setFieldTouched("RateOfInterest",true)}}}
               name="RateOfInterest"
             >
               Rate of Interest
             </TextField>
-            <span className="text-danger">{formik.errors.RateOfInterest}</span>
+            {formik.touched.RateOfInterest && formik.errors.RateOfInterest && (<span className="text-danger">{formik.errors.RateOfInterest}</span>)}
           </div>
 
           <div className="col-md-5 mb-3 animate__animated animate__fadeInRight">
+          <label htmlFor="AgentName" className="mt-3 mb-3" style={{fontFamily:"sans-serif , inter", fontSize:"15px" , color:"#333333"}}>Intimation Charges</label>
             <TextField
-              label="Intimation Charges"
+              placeholder="Enter Intimation Charges"
               type="number"
+              className="bg-white"
               name="IntimationCharges"
-              error={formik.errors.IntimationCharges}
+              error={formik.touched.IntimationCharges && Boolean(formik.errors.IntimationCharges)}
+              onBlur={()=>{if(formik.values.IntimationCharges){formik.setFieldTouched("IntimationCharges",true)}}}
               onChange={formik.handleChange}
               fullWidth
             >
               Intimation Charges
             </TextField>
-            <span className="text-danger">
-              {formik.errors.IntimationCharges}
-            </span>
+            {formik.touched.IntimationCharges && formik.errors.IntimationCharges && (<span className="text-danger">{formik.errors.IntimationCharges}</span>)}
           </div>
 
           {/* <div className="col-md-5 mb-3 mt-2 animate__animated animate__rubberBand">
@@ -397,7 +421,11 @@ Total Amount : ${totalAmount.toLocaleString()}`;
               className="mt-3"
               variant="contained"
               color="warning"
-              sx={{ backgroundColor: "#6200ee" }}
+              style={{
+                backgroundColor : "#58B94A",
+                fontSize:"15px",
+                fontFamily:"sans-serif"
+              }}
             >
               Calculate
             </Button>
