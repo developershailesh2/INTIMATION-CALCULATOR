@@ -1,0 +1,36 @@
+#home-page {
+  background-image: url("../images/2147833207.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.headings {
+  font-family: sans-serif, "Times New Roman", Times, serif;
+  margin: 10px 10px 10px 50px;
+  font-size: 1.25rem;
+  font-weight: 300;
+  line-height: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .headings {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    text-align: start;
+    margin: 10px;
+  }
+  h1 {
+    text-align: start;
+  }
+}
+
+h1{
+  background : linear-gradient( #955eec, #ff3e3e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

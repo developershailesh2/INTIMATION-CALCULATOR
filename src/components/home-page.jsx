@@ -1,19 +1,52 @@
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import Typewriter from "typewriter-effect";
+import "./homepage.css";
 
 export function HomePage() {
   return (
     <div
-      className="d-flex flex-column align-items-center bg-light shadow-lg rounded-3 text-center gap-md-5 p-5"
-      style={{ minHeight: "85vh" }}
+    id="home-page"
+      
     >
      
-      <div className="mt-3 mb-3 p-3 rounded-4">
-        <h2
-        style={{}}
-         className="animate__animated animate__backInLeft text-primary fw-semibold">Welcome To The Intimation Calculator</h2>
-        <h5 className="animate__animated animate__bounceInRight text-muted bg-light p-1 rounded mt-4" >
+      <div className="contents container-sm">
+        <h1
+       
+         className="animate__animated animate__backInLeft text-primary fw-bold ms-5 mt-5 mb-4">Intimation Calculator</h1>
+        <p className="headings pt-3" >
+        Easily calculate billing amounts.
+         Manage admin tasks with ease. <br />
+         Simplifying Loan Processing with Smart Calculations. <br />
+         Say goodbye to manual errors let the system do the math!
+        </p>
+
+        <div className="d-flex flex-column flex-md-row rounded-4 p-3 m-3 w-75">
+            <Link  className="p-1 m-3" to="/amount-calculate">
+             <Button fullWidth className="border border-danger p-3 " sx={{
+              fontFamily:"sans-serif",
+              fontSize:"15px",
+              color:"red",
+              bgcolor:"white",
+              ":hover":{bgcolor:"red",color:"white"}
+              
+             }}>Billing Calculator</Button></Link>
+
+            <Link className="p-1 m-3" to="/admin-login">
+            <Button fullWidth className="border border-danger p-3" sx={{
+              color:"red",
+              bgcolor:"white",
+              fontSize:"15px",
+              ":hover":{
+                borderColor:"red",
+                color:"white",
+                bgcolor:"red"
+              }
+            }}>Admin Login</Button></Link>
+        </div>
+
+
+        {/* <h5 className="animate__animated animate__bounceInRight text-muted" >
           <Typewriter
           
             options={{
@@ -27,11 +60,13 @@ export function HomePage() {
               delay: 60,
             }}
           />
-        </h5>
+        </h5> */}
       </div>
+
+      
       
 
-      <div className="my-2 w-100 d-flex justify-content-center animate__animated animate__zoomIn">
+      {/* <div className="my-2 w-100 d-flex justify-content-start animate__animated animate__zoomIn">
         <Link
           to="/amount-calculate"
           className="w-100"
@@ -57,9 +92,9 @@ export function HomePage() {
             Billing Calculator
           </Button>
         </Link>
-      </div>
+      </div> */}
 
-      <div className="my-2 w-100 d-flex justify-content-center animate__animated animate__zoomIn">
+      {/* <div className="my-2 w-100 d-flex justify-content-start animate__animated animate__zoomIn">
         <Link to="/admin-login" className="w-100" style={{ maxWidth: "250px" }}>
           <Button
             fullWidth
@@ -83,7 +118,7 @@ export function HomePage() {
             Admin Login
           </Button>
         </Link>
-      </div>
+      </div> */}
     </div>
   );
 }
