@@ -112,7 +112,7 @@ app.post("/calculate-amount", (req, res) => {
         res.end();
       })
       .catch((error) => {
-        console.log(error, "Error in calculation amouunt");
+        console.log(error, "Error in calculation amount");
         res.status(500).send({ message: "Error in calculating" });
       });
   });

@@ -41,8 +41,13 @@ export function NavBar() {
             id="offcanvas"
             data-bs-backdrop="true"
           >
-            <div className="offcanvas-header" style={{backgroundColor : "#A4A2EA"}}>
-              <h4 className="offcanvas-title text-white">Intimation Calculator</h4>
+            <div
+              className="offcanvas-header"
+              style={{ backgroundColor: "#A4A2EA" }}
+            >
+              <h4 className="offcanvas-title text-white">
+                Intimation Calculator
+              </h4>
 
               <button
                 className="btn btn-close"
@@ -50,7 +55,10 @@ export function NavBar() {
               ></button>
             </div>
 
-            <div className="offcanvas-body text-dark" style={{backgroundColor : "#e9ecef"}}>
+            <div
+              className="offcanvas-body text-dark"
+              style={{ backgroundColor: "#e9ecef" }}
+            >
               <div className="mt-5 text-start">
                 <h5>Time : {currentTime.toLocaleTimeString()}</h5>
                 <h5>

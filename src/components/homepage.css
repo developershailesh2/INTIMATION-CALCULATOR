@@ -3,7 +3,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-  height: 100vh;
+  height: 88vh;
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -29,8 +29,8 @@
   }
 }
 
-h1{
-  background : linear-gradient( #955eec, #ff3e3e);
+h1 {
+  background: linear-gradient(#955eec, #ff3e3e);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
