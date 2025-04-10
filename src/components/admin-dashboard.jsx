@@ -17,6 +17,7 @@ import { useEffect, useState } from "react";
 import { Toast } from "bootstrap";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import "./admin-dash.css";
 
 export function AdminDashBoard() {
   const [Cookies, setCookies, removeCookie] = useCookies(["username"]);
@@ -113,23 +114,23 @@ export function AdminDashBoard() {
 
   function handleSignOut() {
     //removeCookie("username");
-    let timerInterval;
-    Swal.fire({
-      title: "Signing Out",
-      html: `You will be signed out in <b></b> miliseconds`,
-      timer: 1000,
-      timerProgressBar: true,
-      didOpen: () => {
-        Swal.showLoading();
-        const timer = Swal.getPopup().querySelector("b");
-        timerInterval = setInterval(() => {
-          timer.textContent = `${Swal.getTimerLeft()}`;
-        }, 100);
-      },
-      willClose: () => {
-        clearInterval(timerInterval); // Now it will not give an error
-      },
-    }).then(() => {
+    // let timerInterval;
+    // Swal.fire({
+    //   title: "Signing Out",
+    //   html: `You will be signed out in <b></b> miliseconds`,
+    //   timer: 1000,
+    //   timerProgressBar: true,
+    //   didOpen: () => {
+    //     Swal.showLoading();
+    //     const timer = Swal.getPopup().querySelector("b");
+    //     timerInterval = setInterval(() => {
+    //       timer.textContent = `${Swal.getTimerLeft()}`;
+    //     }, 100);
+    //   },
+    //   willClose: () => {
+    //     clearInterval(timerInterval); // Now it will not give an error
+    //   },
+    // }).then(() => {
       removeCookie("username");
       const Toast = Swal.mixin({
         toast: true,
@@ -148,7 +149,7 @@ export function AdminDashBoard() {
         .then(() => {
           window.location.reload(true);
         });
-    });
+   
   }
 
   function handleDeleteClick() {
@@ -190,7 +191,9 @@ export function AdminDashBoard() {
   return (
     <div>
       <div className="d-flex justify-content-between p-2 m-2">
-        <p className="fw-semibold fs-5">Welcome {Cookies["username"]}</p>
+        <p className="admin fw-semibold fs-5 p-2">
+          Welcome {Cookies["username"]}
+        </p>
         <div className="">
           <Tooltip title="Log Out" arrow placement="left">
             <Button onClick={handleSignOut} variant="contained" color="error">
@@ -329,7 +332,6 @@ export function AdminDashBoard() {
               placeholder="Enter client Name or Agent Name"
               size="medium"
               fullWidth
-              
               color="secondary"
               label="search"
               value={searchclient}
@@ -340,7 +342,6 @@ export function AdminDashBoard() {
                 transition: "width 0.4s ease-in-out",
                 "&:focus-within": { width: "100%" },
               }}
-
             />
           </div>
         </div>

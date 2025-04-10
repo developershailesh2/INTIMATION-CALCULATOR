@@ -219,7 +219,7 @@ Total Amount : ${totalAmount.toLocaleString()}`;
 
   return (
     <div className="d-flex justify-content-evenly p-2">
-      <div className="w-auto m-3 rounded-3">
+      <div className="w-auto rounded-3">
         <form
           onSubmit={formik.handleSubmit}
           className="row justify-content-evenly rounded-3 pb-4"
